@@ -1,10 +1,28 @@
 <!doctype html>
 <html>
 <head>
-    <title></title>
+    <title>Mountaineer</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
 </head>
 <body>
+
+    <div id="main">
+        <header>
+            <h1 class="header-title">Mountaineer</h1>
+            <img class="logo" src="mountaineer.png" alt="logo" width="120" height="100">
+        </header>
+        <h1>Latest Mountains</h1>
+        <ul class="images-container">
+            <li class="image-card" v-for='image in images'>
+                <img class="image" :src="image.url"></img>
+                <h3 class="title">{{ image.title }}</h3>
+            </li>
+        </ul>
+    </div>
+
     <script src="/js/vue.js"></script>
     <script src="/js/axios.min.js"></script>
+    <script src="/js/script.js"></script>
 </body>
 </html>
