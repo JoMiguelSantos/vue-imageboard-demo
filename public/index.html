@@ -2,6 +2,11 @@
 <html>
 <head>
     <title>Mountaineer</title>
+    <link
+          rel="icon"
+          type="image/x-icon"
+          href="mountaineer.png"
+        ></link>
     <link rel="stylesheet" href="/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
 </head>
@@ -19,6 +24,13 @@
                 <h3 class="title">{{ image.title }}</h3>
             </li>
         </ul>
+        <form @submit.prevent="handleSubmit">
+            <input v-model="title" type="text" name="title" id="title" placeholder="title">
+            <input v-model="description" type="text" name="description" id="description" placeholder="description">
+            <input v-model="username" type="text" name="username" id="username" placeholder="username">
+            <input @change="handleChange" type="file" name="file" id="file" accept="image/*">
+            <input type="submit" value="Save">
+        </form>
     </div>
 
     <script src="/js/vue.js"></script>
