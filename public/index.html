@@ -20,7 +20,7 @@
         </header>
         <h1>Latest Mountains</h1>
         <ul class="images-container">
-            <li class="image-card" @click='selectMountain' v-for='image in images'>
+            <li class="image-card" @click='selectMountain(image.id)' v-for='image in images' :key='image.id'>
                 <img class="image" :src="image.url"></img>
                 <div class="image-text">
                     <h3 class="title">{{ image.title }}</h3> 
@@ -34,9 +34,9 @@
             <input v-model="username" type="text" name="username" id="username" placeholder="username">
             <label for="file">Choose a file</label>
             <input class="inputfile" @change="handleChange" type="file" name="file" id="file" accept="image/*">
-            <button class="submit-btn" type="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i> Save</i></input>
+            <button class="submit-btn" type="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i> Save</i></button>
         </form>
-        <mountain @toggleModal="toggleMountainShow" v-if='mountainShow' :id='currentMountain'></mountain>
+        <mountain @togglemodal="toggleMountainShow" v-if='mountainShow' :id='currentMountain'></mountain>
     </div>
 
     <script src="/js/vue.js"></script>

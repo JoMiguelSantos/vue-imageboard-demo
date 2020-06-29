@@ -1,32 +1,37 @@
 (function () {
-    Vue.component("mountain", {
+    var mountain = Vue.component("mountain", {
         props: ["id"],
         data: function () {
-            return { mountain: {}, comments: [], comment: "", username: "" };
+            return { mountain: {}, comments: [], text: "", username: "" };
         },
         mounted: function () {
             var self = this;
-            axios.get(`/images/${self.props.id}`).then((res) => {
+            axios.get(`/images/${this.id}`).then((res) => {
+                console.log("mountain", res.data);
                 self.mountain = res.data;
             });
-            axios.get(`/images/${self.props.id}/comments`).then((res) => {
+            axios.get(`/images/${this.id}/comments`).then((res) => {
+                console.log("comments", res.data);
+
                 self.comments = res.data;
             });
         },
         methods: {
             toggleModal: function (e) {
-                this.$emit("toggleModal");
+                this.$emit("togglemodal");
             },
             handleSubmit: function () {
                 var self = this;
+                console.log("handle submit", self.text, self.username);
+
                 axios
-                    .post(`images/${self.props.id}/comments`, {
+                    .post(`images/${self.id}/comments`, {
                         text: self.text,
-                        username: self.text,
+                        username: self.username,
                     })
                     .then(function (res) {
                         self.comments.unshift(res.data);
-                        self.comment = "";
+                        self.text = "";
                         self.username = "";
                     })
                     .catch(function (err) {
@@ -38,16 +43,16 @@
         <div>
             <span @click="toggleModal">X</span>
             <h1>{{ mountain.title }}</h1>
-            <img src="{{ mountain.url }}" width="600" height="600">
+            <img :src="mountain.url" width="600" height="600"/>
             <p>{{ mountain.description }}</p>
             <p>Uploaded by {{ mountain.username}} on {{ mountain.created_at }} </p>
             <h3>Add a comment:</h3>
             <form @submit.prevent="handleSubmit">
                 <label for="text">Comment</label>
-                <input v-model="text" type="text" id="text" name="text >
+                <input v-model="text" type="text" id="text" name="text" >
                 <label for="username">Username</label>
-                <input v-model="username" type="text" id="username" name="username >
-                <button class="submit-btn" type="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i> Save</i></input>
+                <input v-model="username" type="text" id="username" name="username" >
+                <button class="submit-btn" type="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i> Save</i></button>
             </form>
             <ul v-for='comment in comments'>
                 <li>
@@ -62,7 +67,7 @@
     new Vue({
         // el - represents which element in our html will have access to our Vue code
         el: "#main",
-        components: ["mountain"],
+        components: { mountain },
         // an object that we add any info to that is dynamic / we want to render onscreen
         data: {
             images: [],
@@ -116,8 +121,11 @@
             toggleMountainShow: function () {
                 this.mountainShow = !this.mountainShow;
             },
-            selectMountain: function (e) {
-                this.currentMountain = e.currentTarget.image.id;
+            selectMountain: function (id) {
+                console.log("selectMountain", id);
+
+                this.currentMountain = id;
+                this.toggleMountainShow();
             },
         },
     });

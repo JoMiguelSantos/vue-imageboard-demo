@@ -5,6 +5,7 @@ const { uploadFileS3 } = require("./s3");
 const { uploader } = require("./multer");
 const { s3Url } = require("./config.json");
 
+app.use(express.json());
 app.use(express.static("public"));
 
 app.get("/images", (req, res) => {
@@ -14,6 +15,8 @@ app.get("/images", (req, res) => {
 });
 
 app.get("/images/:id", (req, res) => {
+    console.log("get image", req.params.id);
+
     db.readImage({ id: req.params.id }).then(({ rows }) => {
         return res.json(rows[0]);
     });
@@ -26,11 +29,15 @@ app.get("/images/:id/comments", (req, res) => {
 });
 
 app.post("/images/:id/comments", (req, res) => {
-    db.createComment({ image_id: req.params.id, text, username }).then(
-        ({ rows }) => {
-            return res.json(rows[0]);
-        }
-    );
+    console.log("post comments", req.body);
+
+    db.createComment({
+        image_id: req.params.id,
+        text: req.body.text,
+        username: req.body.username,
+    }).then(({ rows }) => {
+        return res.json(rows[0]);
+    });
 });
 
 app.post("/upload", uploader.single("file"), uploadFileS3, (req, res) => {
