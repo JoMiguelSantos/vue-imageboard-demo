@@ -7,6 +7,7 @@
           type="image/x-icon"
           href="mountaineer.png"
         ></link>
+        <link rel="stylesheet" href="js/font-awesome-4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
 </head>
@@ -19,18 +20,23 @@
         </header>
         <h1>Latest Mountains</h1>
         <ul class="images-container">
-            <li class="image-card" v-for='image in images'>
+            <li class="image-card" @click='selectMountain' v-for='image in images'>
                 <img class="image" :src="image.url"></img>
-                <h3 class="title">{{ image.title }}</h3>
+                <div class="image-text">
+                    <h3 class="title">{{ image.title }}</h3> 
+                    <p class="image-description">{{ image.description }}</p>
+                </div>
             </li>
         </ul>
         <form @submit.prevent="handleSubmit">
             <input v-model="title" type="text" name="title" id="title" placeholder="title">
             <input v-model="description" type="text" name="description" id="description" placeholder="description">
             <input v-model="username" type="text" name="username" id="username" placeholder="username">
-            <input @change="handleChange" type="file" name="file" id="file" accept="image/*">
-            <input type="submit" value="Save">
+            <label for="file">Choose a file</label>
+            <input class="inputfile" @change="handleChange" type="file" name="file" id="file" accept="image/*">
+            <button class="submit-btn" type="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i> Save</i></input>
         </form>
+        <mountain @toggleModal="toggleMountainShow" v-if='mountainShow' :id='currentMountain'></mountain>
     </div>
 
     <script src="/js/vue.js"></script>

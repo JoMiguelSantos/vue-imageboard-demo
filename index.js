@@ -1,42 +1,50 @@
 const express = require("express");
-const { readAllImages } = require("./db");
+const db = require("./db");
 const app = express();
-const multer = require("multer");
-const uidSafe = require("uid-safe");
-const path = require("path");
-
-const diskStorage = multer.diskStorage({
-    destination: function (req, file, callback) {
-        callback(null, __dirname + "/uploads");
-    },
-    filename: function (req, file, callback) {
-        uidSafe(24).then(function (uid) {
-            callback(null, uid + path.extname(file.originalname));
-        });
-    },
-});
-
-const uploader = multer({
-    storage: diskStorage,
-    limits: {
-        fileSize: 2097152,
-    },
-});
+const { uploadFileS3 } = require("./s3");
+const { uploader } = require("./multer");
+const { s3Url } = require("./config.json");
 
 app.use(express.static("public"));
 
 app.get("/images", (req, res) => {
-    readAllImages().then(({ rows }) => {
+    db.readAllImages().then(({ rows }) => {
         return res.json(rows);
     });
 });
 
-app.post("/upload", uploader.single("file"), (req, res) => {
+app.get("/images/:id", (req, res) => {
+    db.readImage({ id: req.params.id }).then(({ rows }) => {
+        return res.json(rows[0]);
+    });
+});
+
+app.get("/images/:id/comments", (req, res) => {
+    db.readComments({ image_id: req.params.id }).then(({ rows }) => {
+        return res.json(rows);
+    });
+});
+
+app.post("/images/:id/comments", (req, res) => {
+    db.createComment({ image_id: req.params.id, text, username }).then(
+        ({ rows }) => {
+            return res.json(rows[0]);
+        }
+    );
+});
+
+app.post("/upload", uploader.single("file"), uploadFileS3, (req, res) => {
     if (req.file) {
-        // send to s3
-        res.json({ success: true });
+        const { filename } = req.file;
+        const url = s3Url + filename;
+        const { title, description, username } = req.body;
+        return db
+            .createImage({ url, title, description, username })
+            .then(({ rows }) => {
+                return res.json({ success: true, data: rows[0] });
+            });
     } else {
-        res.json({ success: false });
+        return res.json({ success: false });
     }
 });
 
