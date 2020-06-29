@@ -7,12 +7,9 @@
         mounted: function () {
             var self = this;
             axios.get(`/images/${this.id}`).then((res) => {
-                console.log("mountain", res.data);
                 self.mountain = res.data;
             });
             axios.get(`/images/${this.id}/comments`).then((res) => {
-                console.log("comments", res.data);
-
                 self.comments = res.data;
             });
         },
@@ -22,8 +19,6 @@
             },
             handleSubmit: function () {
                 var self = this;
-                console.log("handle submit", self.text, self.username);
-
                 axios
                     .post(`images/${self.id}/comments`, {
                         text: self.text,
@@ -40,26 +35,31 @@
             },
         },
         template: `
-        <div>
-            <span @click="toggleModal">X</span>
-            <h1>{{ mountain.title }}</h1>
-            <img :src="mountain.url" width="600" height="600"/>
-            <p>{{ mountain.description }}</p>
-            <p>Uploaded by {{ mountain.username}} on {{ mountain.created_at }} </p>
-            <h3>Add a comment:</h3>
-            <form @submit.prevent="handleSubmit">
-                <label for="text">Comment</label>
-                <input v-model="text" type="text" id="text" name="text" >
-                <label for="username">Username</label>
-                <input v-model="username" type="text" id="username" name="username" >
-                <button class="submit-btn" type="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i> Save</i></button>
-            </form>
-            <ul v-for='comment in comments'>
-                <li>
-                    <h2>{{ comment.text }}</h2>
-                    <p>{{ comment.username }} on {{ comment.created_at }}</p>
-                </li>
-            </ul>
+        <div class="image__detail">
+            <span class="close-btn" @click="toggleModal">X</span>
+            <div class="image__detail--header" >
+                <h1 class="image__detail--title">{{ mountain.title }}</h1>
+                <p class="image__detail--description">{{ mountain.description }}</p>
+                <img class="image__detail--img" :src="mountain.url" width="500" height="500"/>
+                <p class="image__detail--creation-date">Uploaded by {{ mountain.username}} on {{ mountain.created_at }} </p>
+            </div>
+            <div class="image__detail--comments-container">
+                <h2>Add a comment:</h2>
+                <form class="image__detail--form" @submit.prevent="handleSubmit">
+                    <label for="username">Username</label>
+                    <input v-model="username" type="text" id="username" name="username" >
+                    <label for="text">Comment</label>
+                    <textarea v-model="text" id="text" name="text" rows="5" cols="40"></textarea>
+                    <button class="submit-btn" type="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i> Save</i></button>
+                </form>
+                <h2 class="comments__header">Comments:</h2>
+                <ul class="image__detail--comments" >
+                    <li v-for='comment in comments'>
+                        <h3>{{ comment.text }}</h3>
+                        <p>{{ comment.username }} on {{ comment.created_at }}</p>
+                    </li>
+                </ul>
+            </div>
         </div>
             `,
     });
@@ -122,8 +122,6 @@
                 this.mountainShow = !this.mountainShow;
             },
             selectMountain: function (id) {
-                console.log("selectMountain", id);
-
                 this.currentMountain = id;
                 this.toggleMountainShow();
             },

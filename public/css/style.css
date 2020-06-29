@@ -84,6 +84,22 @@ h1 {
     }
 }
 
+.image__form--container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.image__form {
+    text-align: center;
+}
+
+.image__form--title {
+    margin-right: 1rem;
+    font-size: 1.5rem;
+}
+
 .image-card {
     display: grid;
     grid-template-columns: 1fr;
@@ -121,4 +137,66 @@ h1 {
         margin: 0.3rem;
         font-size: 18px;
     }
+}
+
+.image__detail {
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(10, 10, 10, 0.6);
+    backdrop-filter: blur(8px);
+    width: 100%;
+    color: aliceblue;
+    height: 100%;
+    overflow-y: auto;
+    z-index: 50;
+}
+
+.close-btn {
+    font-size: 3rem;
+    position: absolute;
+    top: 2%;
+    left: 95%;
+    cursor: pointer;
+}
+
+.image__detail--comments-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    margin: 2rem;
+}
+
+.image__detail--title {
+    margin: 1rem auto;
+    text-align: center;
+}
+
+.image__detail--img {
+    margin: 1rem auto;
+}
+.image__detail--creation-date,
+.image__detail--description {
+    text-align: center;
+}
+
+.image__detail--form {
+    display: flex;
+    flex-direction: column;
+}
+
+.image__detail--form button {
+    margin: 1rem;
+}
+
+.image__detail--comments {
+    margin: 0;
+    width: 25rem;
+}
+
+.comments__header {
+    margin-bottom: 0;
 }

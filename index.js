@@ -15,8 +15,6 @@ app.get("/images", (req, res) => {
 });
 
 app.get("/images/:id", (req, res) => {
-    console.log("get image", req.params.id);
-
     db.readImage({ id: req.params.id }).then(({ rows }) => {
         return res.json(rows[0]);
     });
@@ -29,8 +27,6 @@ app.get("/images/:id/comments", (req, res) => {
 });
 
 app.post("/images/:id/comments", (req, res) => {
-    console.log("post comments", req.body);
-
     db.createComment({
         image_id: req.params.id,
         text: req.body.text,
