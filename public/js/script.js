@@ -12,6 +12,7 @@
             axios.get(`/images/${this.id}/comments`).then((res) => {
                 self.comments = res.data;
             });
+            location.hash = this.id;
         },
         methods: {
             toggleModal: function (e) {
@@ -51,7 +52,19 @@
             <div class="image__detail--header" >
                 <h1 class="image__detail--title">{{ mountain.title }}</h1>
                 <p class="image__detail--description">{{ mountain.description }}</p>
-                <img class="image__detail--img" :src="mountain.url" width="500" height="500"/>
+                <div class="image__detail--nav">
+                    <div class="arrow__container">
+                        <a v-if="mountain.previous" :href="'/#' + mountain.previous">
+                            <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <img class="image__detail--img" :src="mountain.url" width="500" height="500"/>
+                    <div class="arrow__container">
+                        <a v-if="mountain.next" :href="'/#' + mountain.next">
+                            <i class="fa fa-angle-right" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
                 <p class="image__detail--creation-date">Uploaded by {{ mountain.username}} on {{ mountain.created_at }} </p>
             </div>
             <div class="image__detail--comments-container">
@@ -76,10 +89,8 @@
     });
 
     new Vue({
-        // el - represents which element in our html will have access to our Vue code
         el: "#main",
         components: { mountain },
-        // an object that we add any info to that is dynamic / we want to render onscreen
         data: {
             images: [],
             title: "",
@@ -115,11 +126,16 @@
             }, 1000);
 
             window.onhashchange = function () {
-                self.currentMountain = location.hash.slice(1);
+                if (location.hash) {
+                    self.currentMountain = location.hash.slice(1);
+                    self.mountainShow = true;
+                } else {
+                    self.mountainShow = false;
+                }
             };
 
-            if (currentMountain) {
-                self.selectMountain(self.currentMountain);
+            if (self.currentMountain) {
+                self.mountainShow = true;
             }
         },
         methods: {
@@ -153,6 +169,9 @@
             },
             toggleMountainShow: function () {
                 this.mountainShow = !this.mountainShow;
+                if (!this.mountainShow) {
+                    location.hash = "";
+                }
             },
             selectMountain: function (id) {
                 this.currentMountain = id;

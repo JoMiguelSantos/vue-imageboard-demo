@@ -28,7 +28,12 @@ exports.createImage = ({ title, description, username, url }) => {
 };
 
 exports.readImage = ({ id }) => {
-    const query = `SELECT * FROM images WHERE id = $1`;
+    const query = `SELECT *
+                   FROM (SELECT *, 
+                            LAG(id) OVER(ORDER BY id DESC) as previous,
+                            LEAD(id) OVER(ORDER BY id DESC) as next
+                        FROM images) as data
+                   WHERE id = $1`;
     return db.query(query, [id]);
 };
 

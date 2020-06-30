@@ -188,10 +188,35 @@ h1 {
     color: dodgerblue;
 }
 
+.image__detail--nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.arrow__container {
+    width: 2rem;
+    margin: 1rem;
+}
+
+.fa-angle-left,
+.fa-angle-right {
+    font-size: 6rem;
+    text-decoration: none;
+    color: powderblue;
+}
+
+.fa-angle-left:hover,
+.fa-angle-right:hover {
+    color: dodgerblue;
+    cursor: pointer;
+}
+
 .image__detail--img {
     margin: 1rem auto;
     object-fit: cover;
 }
+
 .image__detail--creation-date,
 .image__detail--description {
     text-align: center;
