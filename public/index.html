@@ -18,16 +18,6 @@
             <h1 class="header-title">Mountaineer</h1>
             <img class="logo" src="mountaineer.png" alt="logo" width="120" height="100">
         </header>
-        <h1>Latest Mountains</h1>
-        <ul class="images-container">
-            <li class="image-card" @click='selectMountain(image.id)' v-for='image in images' :key='image.id'>
-                <img class="image" :src="image.url"></img>
-                <div class="image-text">
-                    <h3 class="title">{{ image.title }}</h3> 
-                    <p class="image-description">{{ image.description }}</p>
-                </div>
-            </li>
-        </ul>
         <div class="image__form--container">
             <p class="image__form--title">Add a new Mountain:</p>
             <form class="image__form" @submit.prevent="handleSubmit">
@@ -39,6 +29,18 @@
                 <button class="submit-btn" type="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i> Save</i></button>
             </form>
         </div>
+        <h1>Latest Mountains</h1>
+        <ul class="images-container">
+            <li class="image-card" @click='selectMountain(image.id)' v-for='image in images' :key='image.id'>
+                <img class="image" :src="image.url"></img>
+                <div class="image-text">
+                    <h3 class="title">{{ image.title }}</h3> 
+                    <p class="image-description">{{ image.description }}</p>
+                </div>
+            </li>
+        </ul>
+        <p class="no_more_images" v-if='no_more_images'>No more mountains to see :( Please add some more!</p>
+        <p class="loading" v-if='loading'>Loading more mountains...</p>
         <mountain @togglemodal="toggleMountainShow" v-if='mountainShow' :id='currentMountain'></mountain>
     </div>
 

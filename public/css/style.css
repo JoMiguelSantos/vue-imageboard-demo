@@ -140,6 +140,12 @@ h1 {
     }
 }
 
+.no_more_images,
+.loading {
+    text-align: center;
+    font-size: 2rem;
+}
+
 .image__detail {
     display: flex;
     justify-content: center;

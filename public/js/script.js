@@ -34,6 +34,17 @@
                     });
             },
         },
+        watch: {
+            id: function () {
+                var self = this;
+                axios.get(`/images/${this.id}`).then((res) => {
+                    self.mountain = res.data;
+                });
+                axios.get(`/images/${this.id}/comments`).then((res) => {
+                    self.comments = res.data;
+                });
+            },
+        },
         template: `
         <div class="image__detail">
             <span class="close-btn" @click="toggleModal">X</span>
@@ -44,7 +55,7 @@
                 <p class="image__detail--creation-date">Uploaded by {{ mountain.username}} on {{ mountain.created_at }} </p>
             </div>
             <div class="image__detail--comments-container">
-                <h2>Add a comment:</h2>
+                <h2 class="image__detail--add-comment">Add a comment:</h2>
                 <form class="image__detail--form" @submit.prevent="handleSubmit">
                     <label for="username">Username</label>
                     <input v-model="username" type="text" id="username" name="username" >
@@ -55,7 +66,7 @@
                 <h2 class="comments__header">Comments:</h2>
                 <ul class="image__detail--comments" >
                     <li v-for='comment in comments'>
-                        <h3>{{ comment.text }}</h3>
+                        <h3 class="comments__text">{{ comment.text }}</h3>
                         <p>{{ comment.username }} on {{ comment.created_at }}</p>
                     </li>
                 </ul>
@@ -76,7 +87,11 @@
             file: null,
             username: "",
             mountainShow: false,
-            currentMountain: "",
+            currentMountain: location.hash.slice(1),
+            no_more_images: false,
+            lastId: "",
+            interval: "",
+            loading: false,
         },
         mounted: function () {
             var self = this;
@@ -84,10 +99,28 @@
                 .get("/images")
                 .then(function (res) {
                     self.images = res.data;
+                    self.lastId = res.data.slice(-1)[0].id;
                 })
                 .catch(function (err) {
                     console.log(err);
                 });
+
+            self.interval = setInterval(function () {
+                if (
+                    document.documentElement.scrollTop + window.innerHeight >
+                    document.documentElement.offsetHeight - 200
+                ) {
+                    self.getMoreResults(self.lastId);
+                }
+            }, 1000);
+
+            window.onhashchange = function () {
+                self.currentMountain = location.hash.slice(1);
+            };
+
+            if (currentMountain) {
+                self.selectMountain(self.currentMountain);
+            }
         },
         methods: {
             getImages: function () {
@@ -124,6 +157,26 @@
             selectMountain: function (id) {
                 this.currentMountain = id;
                 this.toggleMountainShow();
+            },
+            getMoreResults: function (id) {
+                const self = this;
+                self.loading = true;
+                axios
+                    .post("/images/more", { id })
+                    .then(function (res) {
+                        if (res.data.length === 0) {
+                            self.no_more_images = true;
+                            window.onscroll = null;
+                            clearInterval(self.interval);
+                        } else {
+                            self.lastId = res.data.slice(-1)[0].id;
+                            self.images = self.images.concat(res.data);
+                        }
+                        self.loading = false;
+                    })
+                    .catch(function (err) {
+                        console.log(err);
+                    });
             },
         },
     });

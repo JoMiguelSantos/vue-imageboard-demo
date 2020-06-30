@@ -9,8 +9,17 @@ if (process.env.DATABASE_URL) {
 }
 
 exports.readAllImages = () => {
-    const query = `SELECT * FROM images ORDER BY created_at DESC;`;
+    const query = `SELECT * FROM images ORDER BY id DESC LIMIT 18;`;
     return db.query(query);
+};
+
+exports.getMoreImages = ({ id }) => {
+    const query = `SELECT * 
+                    FROM images
+                    WHERE id < $1
+                    ORDER BY id DESC
+                    LIMIT 18`;
+    return db.query(query, [id]);
 };
 
 exports.createImage = ({ title, description, username, url }) => {

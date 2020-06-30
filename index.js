@@ -14,6 +14,12 @@ app.get("/images", (req, res) => {
     });
 });
 
+app.post("/images/more", (req, res) => {
+    db.getMoreImages({ id: req.body.id }).then(({ rows }) => {
+        return res.json(rows);
+    });
+});
+
 app.get("/images/:id", (req, res) => {
     db.readImage({ id: req.params.id }).then(({ rows }) => {
         return res.json(rows[0]);
