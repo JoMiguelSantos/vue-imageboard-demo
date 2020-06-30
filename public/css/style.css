@@ -6,7 +6,12 @@ body {
 
 .header-title {
     margin: 1rem;
-    font-size: 70px;
+    font-size: 5rem;
+}
+@media only screen and (max-width: 600px) {
+    .header-title {
+        font-size: 2rem;
+    }
 }
 
 header {
@@ -70,6 +75,8 @@ h1 {
     align-items: center;
     justify-content: space-around;
     height: 2rem;
+    line-height: 15px;
+    margin: 0 0.5rem;
 }
 
 .image-description {
@@ -179,6 +186,20 @@ h1 {
     overflow-y: auto;
     z-index: 50;
 }
+@media only screen and (max-width: 600px) {
+    .image__detail {
+        flex-direction: column;
+    }
+}
+
+.image__detail--header {
+}
+@media only screen and (max-width: 600px) {
+    .image__detail--header {
+        width: 100%;
+        margin-top: 8rem;
+    }
+}
 
 .close-btn {
     color: powderblue;
@@ -187,6 +208,16 @@ h1 {
     top: 2%;
     left: 95%;
     cursor: pointer;
+}
+@media only screen and (max-width: 600px) {
+    .close-btn {
+        color: powderblue;
+        font-size: 2rem;
+        position: absolute;
+        top: 2%;
+        left: 90%;
+        cursor: pointer;
+    }
 }
 
 .image__detail--add-comment {
@@ -206,6 +237,11 @@ h1 {
     text-align: center;
     color: dodgerblue;
 }
+@media only screen and (max-width: 600px) {
+    .image__detail--title {
+        margin: 0 auto;
+    }
+}
 
 .image__detail--nav {
     display: flex;
@@ -224,6 +260,12 @@ h1 {
     text-decoration: none;
     color: powderblue;
 }
+@media only screen and (max-width: 600px) {
+    .fa-angle-left,
+    .fa-angle-right {
+        font-size: 3rem;
+    }
+}
 
 .fa-angle-left:hover,
 .fa-angle-right:hover {
@@ -234,6 +276,12 @@ h1 {
 .image__detail--img {
     margin: 1rem auto;
     object-fit: cover;
+}
+@media only screen and (max-width: 600px) {
+    .image__detail--img {
+        width: 300px;
+        height: 300px;
+    }
 }
 
 .image__detail--creation-date,
@@ -248,6 +296,15 @@ h1 {
 
 .image__detail--form button {
     margin: 1rem;
+    color: white;
+    margin: 1rem auto;
+    padding: 3px;
+}
+
+.image__detail--form button:hover {
+    padding: 0;
+    color: lightskyblue;
+    border: 3px solid lightskyblue;
 }
 
 .image__detail--comments {
