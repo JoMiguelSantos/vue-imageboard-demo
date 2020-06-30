@@ -1,6 +1,7 @@
 body {
     font-family: "Permanent Marker", cursive;
     background-color: powderblue;
+    box-sizing: border-box;
 }
 
 .header-title {
@@ -21,8 +22,17 @@ h1 {
 }
 
 .submit-btn {
-    border: 3px solid black;
-    background-color: white;
+    border: none;
+    background-color: transparent;
+    font-family: "Permanent Marker", cursive;
+    width: 9rem;
+    font-size: 1.2rem;
+}
+
+.submit-btn:hover {
+    cursor: pointer;
+    color: dodgerblue;
+    border: 3px solid dodgerblue;
 }
 
 .inputfile {
@@ -98,6 +108,15 @@ h1 {
 .image__form--title {
     margin-right: 1rem;
     font-size: 1.5rem;
+}
+
+.input__file--label {
+    padding: 0 1rem;
+}
+
+.input__file--label:hover {
+    cursor: pointer;
+    color: dodgerblue;
 }
 
 .image-card {

@@ -103,6 +103,7 @@
             lastId: "",
             interval: "",
             loading: false,
+            imageUpload: "",
         },
         mounted: function () {
             var self = this;
@@ -165,6 +166,7 @@
                     });
             },
             handleChange: function (e) {
+                this.imageUpload = e.target.files[0].name;
                 this.file = e.target.files[0];
             },
             toggleMountainShow: function () {
