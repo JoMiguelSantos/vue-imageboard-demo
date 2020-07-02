@@ -153,13 +153,16 @@
                 formData.append("description", this.description);
                 formData.append("username", this.username);
                 formData.append("file", this.file);
+                self.loading = true;
                 axios
                     .post("/upload", formData)
                     .then(function (res) {
+                        self.loading = false;
                         self.images.unshift(res.data.data);
                         self.title = "";
                         self.description = "";
                         self.username = "";
+                        self.imageUpload = "";
                     })
                     .catch(function (err) {
                         console.log(err);

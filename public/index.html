@@ -30,6 +30,7 @@
                 <input class="inputfile" @change="handleChange" type="file" name="file" id="file" accept="image/*">
                 <button class="submit-btn" type="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i> UPLOAD</i></button>
             </form>
+            <div v-if='loading' class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
         </div>
         <h1>Latest Mountains</h1>
         <ul class="images-container">
