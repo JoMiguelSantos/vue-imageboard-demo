@@ -71,9 +71,9 @@
                 <h2 class="image__detail--add-comment">Add a comment:</h2>
                 <form class="image__detail--form" @submit.prevent="handleSubmit">
                     <label for="username">Username</label>
-                    <input v-model="username" type="text" id="username" name="username" >
+                    <input v-model="username" type="text" id="username" name="username" required>
                     <label for="text">Comment</label>
-                    <textarea v-model="text" id="text" name="text" rows="5" cols="40"></textarea>
+                    <textarea v-model="text" id="text" name="text" rows="5" cols="40" required></textarea>
                     <button class="submit-btn" type="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i> Save</i></button>
                 </form>
                 <h2 class="comments__header">Comments:</h2>

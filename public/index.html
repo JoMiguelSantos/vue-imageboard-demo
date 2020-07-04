@@ -23,11 +23,11 @@
         <div class="image__form--container">
             <p class="image__form--title">Add a new Mountain:</p>
             <form class="image__form" @submit.prevent="handleSubmit">
-                <input v-model="title" type="text" name="title" id="title" placeholder="Title">
-                <input v-model="description" type="text" name="description" id="description" placeholder="Description">
-                <input v-model="username" type="text" name="username" id="username" placeholder="Username">
+                <input v-model="title" type="text" name="title" id="title" placeholder="Title" required>
+                <input v-model="description" type="text" name="description" id="description" placeholder="Description" required>
+                <input v-model="username" type="text" name="username" id="username" placeholder="Username" required>
                 <label class="input__file--label" for="file">{{ imageUpload || 'Choose a file'}}</label>
-                <input class="inputfile" @change="handleChange" type="file" name="file" id="file" accept="image/*">
+                <input class="inputfile" @change="handleChange" type="file" name="file" id="file" accept="image/*" required>
                 <button class="submit-btn" type="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i> UPLOAD</i></button>
             </form>
             <div v-if='loading' class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
